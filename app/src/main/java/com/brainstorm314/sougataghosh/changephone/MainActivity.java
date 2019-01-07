@@ -3,6 +3,7 @@ package com.brainstorm314.sougataghosh.changephone;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -50,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
         buttonGetPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentUser = editTextUserId.getText().toString().trim();
+                currentUser = editTextUserId.getText().toString().trim().toUpperCase();
+                if (TextUtils.isEmpty(currentUser)){
+                    editTextUserId.setError("Enter valid User");
+                    editTextUserId.requestFocus();
+                    return;
+                }
                 setCurrentPhone();
             }
         });
@@ -58,9 +64,21 @@ public class MainActivity extends AppCompatActivity {
         buttonChangePhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentUser = editTextUserId.getText().toString().trim();
+                currentUser = editTextUserId.getText().toString().trim().toUpperCase();
+                if (TextUtils.isEmpty(currentUser)){
+                    editTextUserId.setError("Enter valid User");
+                    editTextUserId.requestFocus();
+                    return;
+                }
+
                 final String u = currentUser;
                 newPhone = editTextNewPhone.getText().toString().trim();
+
+                if(newPhone.length()!=10){
+                    editTextNewPhone.setError("Enter Valid Phone");
+                    editTextNewPhone.requestFocus();
+                    return;
+                }
 
                 usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -99,7 +117,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentPhone(){
-        currentUser = editTextUserId.getText().toString().trim();
+        currentUser = editTextUserId.getText().toString().trim().toUpperCase();
+        if (TextUtils.isEmpty(currentUser)){
+            editTextUserId.setError("Enter valid User");
+            editTextUserId.requestFocus();
+            return;
+        }
+
         final String u = currentUser;
 
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
